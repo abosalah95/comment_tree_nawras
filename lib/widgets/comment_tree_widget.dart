@@ -5,9 +5,9 @@ import './tree_theme_data.dart';
 import 'package:provider/provider.dart';
 
 typedef AvatarWidgetBuilder<T> = PreferredSize Function(
-  BuildContext context,
-  T value,
-);
+    BuildContext context,
+    T value,
+    );
 typedef ContentBuilder<T> = Widget Function(BuildContext context, T value);
 
 class CommentTreeWidget<R, C> extends StatefulWidget {
@@ -23,20 +23,21 @@ class CommentTreeWidget<R, C> extends StatefulWidget {
   final AvatarWidgetBuilder<C>? avatarChild;
   final ContentBuilder<C>? contentChild;
   final TreeThemeData treeThemeData;
+  final Widget? replyWidget;
 
   const CommentTreeWidget(
-    this.root,
-    this.replies, {
-    this.treeThemeData = const TreeThemeData(lineWidth: 1),
-    this.avatarRoot,
-    this.contentRoot,
-    this.avatarChild,
-    this.contentChild,
-  });
+      this.root,
+      this.replies, {
+        this.treeThemeData = const TreeThemeData(lineWidth: 1),
+        this.avatarRoot,
+        this.contentRoot,
+        this.avatarChild,
+        this.contentChild,
+        this.replyWidget,
+      });
 
   @override
-  _CommentTreeWidgetState<R, C> createState() =>
-      _CommentTreeWidgetState<R, C>();
+  _CommentTreeWidgetState<R, C> createState() => _CommentTreeWidgetState<R, C>();
 }
 
 class _CommentTreeWidgetState<R, C> extends State<CommentTreeWidget<R, C>> {
@@ -52,13 +53,17 @@ class _CommentTreeWidgetState<R, C> extends State<CommentTreeWidget<R, C>> {
             widget.contentRoot!(context, widget.root),
           ),
           ...widget.replies.map(
-            (e) => CommentChildWidget(
+                (e) => CommentChildWidget(
               isLast: widget.replies.indexOf(e) == (widget.replies.length - 1),
               avatar: widget.avatarChild!(context, e),
               avatarRoot: avatarRoot.preferredSize,
               content: widget.contentChild!(context, e),
             ),
-          )
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          widget.replyWidget!,
         ],
       ),
     );
