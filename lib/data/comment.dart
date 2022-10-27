@@ -14,6 +14,10 @@ class Comment {
 
     required this.userName,
 
+    required this.userType,
+
+    required this.date,
+
     required this.content,
 
     required this.authorID,
@@ -34,7 +38,11 @@ class Comment {
 
   String? userName;
 
+  String? userType;
+
   String? content;
+
+  String? date;
 
   int? authorID;
 
